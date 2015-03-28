@@ -24,18 +24,21 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
   // FILE *f = _wfopen(logpath, L"ab");
   // fwprintf(f, L"%s\n", lpCmdLine);
   // fclose(f);
+  wchar_t args[MAX_PATH] = L"\"";
 
-  wchar_t *args = lpCmdLine;
-  if (*args == '-') {
-    args++;
-    args++;
-    while (*args != '\0') {
-      if (*args == ' ') {
-        args++;
+  wchar_t *start = lpCmdLine;
+  if (*start == '-') {
+    start++;
+    start++;
+    while (*start != '\0') {
+      if (*start == ' ') {
+        start++;
+        wcscat(args, start);
         break;
       }
-      args++;
+      start++;
     }
+    wcscat(args, L"\"");
     ShellExecute(NULL, NULL, path, args, NULL, nCmdShow);
     return 0;
   }
